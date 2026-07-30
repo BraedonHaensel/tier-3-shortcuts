@@ -26,10 +26,15 @@ $projects = @(
     @{ Name = "rig-status"; Initials = "RS" },
     @{ Name = "rig-diagnostics"; Initials = "RD" },
     @{ Name = "edrvpn-new"; Initials = "VPN" },
+    @{ Name = "rig-auto-login"; Initials = "RAL" },
+    @{ Name = "splunk-message-dispatcher"; Initials = "SMD" },
+    @{ Name = "tool-helmerich-and-payne"; Initials = "THP" },
+    @{ Name = "config-file-download"; Initials = "CFD" },
     @{ Name = "rig-info"; Initials = "RI" },
     @{ Name = "rig-info-server"; Initials = "RIS" },
     @{ Name = "deployments"; Initials = "D" },
-    @{ Name = "terraform_services"; Initials = "TS" }
+    @{ Name = "terraform_services"; Initials = "TS" },
+    $null
 )
 
 $dest = [System.Environment]::GetFolderPath("Desktop")
@@ -39,6 +44,8 @@ $iconCreatorScript = Join-Path $PSScriptRoot "icon-creator.ps1"
 $shell = New-Object -ComObject WScript.Shell
 
 foreach ($project in $projects) {
+    if (-not $project) { continue }
+
     $projectName = $project.Name
     $initials = $project.Initials
     $shortcutPath = Join-Path $dest "$projectName.lnk"
