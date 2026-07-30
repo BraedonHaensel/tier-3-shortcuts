@@ -37,9 +37,13 @@ $projects = @(
     $null
 )
 
-$dest = [System.Environment]::GetFolderPath("Desktop")
+$dest = Join-Path ([System.Environment]::GetFolderPath("Desktop")) "tier-3-shortcuts"
 $iconsDir = Join-Path $PSScriptRoot "icons"
 $iconCreatorScript = Join-Path $PSScriptRoot "icon-creator.ps1"
+
+if (-not (Test-Path -LiteralPath $dest)) {
+    New-Item -Path $dest -ItemType Directory -Force | Out-Null
+}
 
 $shell = New-Object -ComObject WScript.Shell
 
