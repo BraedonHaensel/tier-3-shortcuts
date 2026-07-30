@@ -1,9 +1,27 @@
+<#
+.SYNOPSIS
+Creates desktop VS Code shortcuts for Tier 3 projects and assigns project icons.
+
+.DESCRIPTION
+For each entry in $projects, this script creates a desktop .lnk shortcut that opens
+the remote project folder in VS Code using --folder-uri.
+
+If icons/<project-name>.ico does not exist, the script runs icon-creator.ps1 with
+the configured initials and saves the generated icon for that project.
+
+.USAGE
+From this folder:
+pwsh -ExecutionPolicy Bypass -File .\generate-tier-3-shortcuts.ps1
+
+.CONFIGURE
+Edit these variables near the top of the script:
+- $vscode: path to Code.exe
+- $folderUriBase: base remote folder URI
+- $projects: project names and icon initials
+#>
+
 $vscode = "C:\Users\bhaensel\AppData\Local\Programs\Microsoft VS Code\Code.exe"
 $folderUriBase = "vscode-remote://ssh-remote+bhaensel-dev/home/bhaensel"
-$dest = [System.Environment]::GetFolderPath("Desktop")
-$iconsDir = Join-Path $PSScriptRoot "icons"
-$iconCreatorScript = Join-Path $PSScriptRoot "icon-creator.ps1"
-
 $projects = @(
     @{ Name = "rig-status"; Initials = "RS" },
     @{ Name = "rig-diagnostics"; Initials = "RD" },
@@ -13,6 +31,10 @@ $projects = @(
     @{ Name = "deployments"; Initials = "D" },
     @{ Name = "terraform_services"; Initials = "TS" }
 )
+
+$dest = [System.Environment]::GetFolderPath("Desktop")
+$iconsDir = Join-Path $PSScriptRoot "icons"
+$iconCreatorScript = Join-Path $PSScriptRoot "icon-creator.ps1"
 
 $shell = New-Object -ComObject WScript.Shell
 

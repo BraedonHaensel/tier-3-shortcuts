@@ -1,13 +1,35 @@
+<#
+.SYNOPSIS
+Creates a circular .ico icon with initials.
+
+.DESCRIPTION
+Generates a 256x256 icon at icons/icon.ico using the initials you provide.
+The icon uses a random dark/saturated background color chosen to keep strong
+contrast with white foreground text.
+
+.USAGE
+With argument:
+pwsh -ExecutionPolicy Bypass -File .\icon-creator.ps1 -Initials RS
+
+Prompted input:
+pwsh -ExecutionPolicy Bypass -File .\icon-creator.ps1
+
+.CONFIGURE
+Edit these variables near the top of the script:
+- $iconSize
+- $outputPath
+#>
+
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
     [string]$Initials
 )
 
-$ErrorActionPreference = "Stop"
-
 $iconSize = 256
 $outputPath = Join-Path $PSScriptRoot "icons\icon.ico"
+
+$ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($Initials)) {
     $Initials = Read-Host "Enter initials (examples: RS, VPN)"
