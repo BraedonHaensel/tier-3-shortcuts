@@ -60,4 +60,10 @@ foreach ($project in $projects) {
     Write-Host "Created shortcut for $projectName"
 }
 
-Write-Host "Reboot your computer to refresh the shortcut icons."
+if ($PSStyle) {
+    $softYellow = $PSStyle.Foreground.FromRgb(0xF0CC4A)
+    Write-Host ($PSStyle.Bold + $softYellow + "Please reboot your computer to ensure everything is updated." + $PSStyle.Reset)
+}
+else {
+    Write-Host "Please reboot your computer to ensure everything is updated." -ForegroundColor Yellow
+}
