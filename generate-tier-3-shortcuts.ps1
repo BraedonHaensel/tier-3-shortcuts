@@ -6,9 +6,9 @@ Creates desktop VS Code shortcuts for Tier 3 projects and assigns project icons.
 For each entry in $projects, this script creates a desktop .lnk shortcut that opens
 the remote project folder in VS Code using --folder-uri.
 
-It also creates a Start Menu alias shortcut named with initials (for example,
-"RS - rig-status") in shell:Programs, so searching by initials from the Windows key
-surfaces the right project.
+It also creates a Start Menu alias shortcut in shell:Programs\Tier 3 Shortcuts
+named with initials (for example, "RS - rig-status"), so searching by initials
+from the Windows key surfaces the right project.
 
 If icons/<project-name>.ico does not exist, the script runs icon-creator.ps1 with
 the configured initials and saves the generated icon for that project.
