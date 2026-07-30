@@ -6,6 +6,10 @@ Creates desktop VS Code shortcuts for Tier 3 projects and assigns project icons.
 For each entry in $projects, this script creates a desktop .lnk shortcut that opens
 the remote project folder in VS Code using --folder-uri.
 
+It also creates a Start Menu alias shortcut named with initials (for example,
+"RS - rig-status") in shell:Programs, so searching by initials from the Windows key
+surfaces the right project.
+
 If icons/<project-name>.ico does not exist, the script runs icon-creator.ps1 with
 the configured initials and saves the generated icon for that project.
 
@@ -38,11 +42,16 @@ $projects = @(
 )
 
 $dest = Join-Path ([System.Environment]::GetFolderPath("Desktop")) "tier-3-shortcuts"
+$startMenuAliasDir = Join-Path ([System.Environment]::GetFolderPath("StartMenu")) "Programs\Tier 3 Shortcuts"
 $iconsDir = Join-Path $PSScriptRoot "icons"
 $iconCreatorScript = Join-Path $PSScriptRoot "icon-creator.ps1"
 
 if (-not (Test-Path -LiteralPath $dest)) {
     New-Item -Path $dest -ItemType Directory -Force | Out-Null
+}
+
+if (-not (Test-Path -LiteralPath $startMenuAliasDir)) {
+    New-Item -Path $startMenuAliasDir -ItemType Directory -Force | Out-Null
 }
 
 $shell = New-Object -ComObject WScript.Shell
@@ -53,6 +62,7 @@ foreach ($project in $projects) {
     $projectName = $project.Name
     $initials = $project.Initials
     $shortcutPath = Join-Path $dest "$projectName.lnk"
+    $aliasShortcutPath = Join-Path $startMenuAliasDir "$initials - $projectName.lnk"
     $iconPath = Join-Path $iconsDir "$projectName.ico"
 
     if (-not (Test-Path -LiteralPath $iconPath)) {
@@ -66,7 +76,15 @@ foreach ($project in $projects) {
     $folderUri = "$folderUriBase/$projectName"
     $shortcut.Arguments = "--folder-uri `"$folderUri`""
     $shortcut.IconLocation = $iconPath
+    $shortcut.Description = "Tier 3 shortcut: $projectName ($initials)"
     $shortcut.Save()
+
+    $aliasShortcut = $shell.CreateShortcut($aliasShortcutPath)
+    $aliasShortcut.TargetPath = $vscode
+    $aliasShortcut.Arguments = "--folder-uri `"$folderUri`""
+    $aliasShortcut.IconLocation = $iconPath
+    $aliasShortcut.Description = "Alias: $initials for $projectName"
+    $aliasShortcut.Save()
 
     Write-Host "Created shortcut for $projectName"
 }
