@@ -22,6 +22,10 @@ Edit these variables near the top of the script:
 - $vscode: path to Code.exe
 - $folderUriBase: base remote folder URI
 - $projects: project names and icon initials
+
+.TIPS
+To open VS Code maximized, add this to your VS Code user settings (Ctrl+Shift+P > "Open User Settings JSON"):
+  "window.newWindowDimensions": "maximized"
 #>
 
 $vscode = "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe"
