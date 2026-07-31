@@ -24,7 +24,7 @@ Edit these variables near the top of the script:
 - $projects: project names and icon initials
 #>
 
-$vscode = "C:\Users\bhaensel\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+$vscode = "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe"
 $folderUriBase = "vscode-remote://ssh-remote+bhaensel-dev/home/bhaensel"
 $projects = @(
     @{ Name = "rig-status"; Initials = "RS" },
