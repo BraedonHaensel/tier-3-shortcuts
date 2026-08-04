@@ -42,7 +42,7 @@ if ([string]::IsNullOrWhiteSpace($Initials)) {
 
 Add-Type -AssemblyName System.Drawing
 
-function Blend-Color {
+function Merge-Color {
     param(
         [Parameter(Mandatory = $true)]
         [System.Drawing.Color]$BaseColor,
@@ -228,8 +228,8 @@ try {
     $graphics.Clear([System.Drawing.Color]::Transparent)
 
     $baseColor = New-RandomBackgroundColor
-    $topColor = Blend-Color -BaseColor $baseColor -TargetColor ([System.Drawing.Color]::White) -Amount 0.20
-    $bottomColor = Blend-Color -BaseColor $baseColor -TargetColor ([System.Drawing.Color]::Black) -Amount 0.25
+    $topColor = Merge-Color -BaseColor $baseColor -TargetColor ([System.Drawing.Color]::White) -Amount 0.20
+    $bottomColor = Merge-Color -BaseColor $baseColor -TargetColor ([System.Drawing.Color]::Black) -Amount 0.25
 
     $margin = [int][Math]::Round($iconSize * 0.09)
     $diameter = $iconSize - (2 * $margin)
